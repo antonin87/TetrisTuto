@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import * as Model from './models/model';
+import * as Mousetrap from 'mousetrap';
 import TetrisContext from './TetrisContext';
 
 import GameView from './layouts/GameView';
@@ -8,8 +9,21 @@ import GameView from './layouts/GameView';
 class TetrisDashboard extends React.Component {
 
   componentDidMount() {
-      // ThemeContext value is this.props.theme
-      setInterval(() => this.props.context.state.update(),1000);
+    const gameState = this.props.context.state;
+      setInterval(() => gameState.tick(),300);
+      // Bind rotation
+      Mousetrap.bind('space', () => {
+        gameState.rotate();
+          return false;
+      });
+      Mousetrap.bind('left', () => {
+        gameState.left();
+          return false;
+      });
+      Mousetrap.bind('right', () => {
+        gameState.right();
+          return false;
+      });
   }
 
   render(){
